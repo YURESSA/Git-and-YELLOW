@@ -1,19 +1,16 @@
 import sys
 from random import choice, randint
-
-from PyQt5 import uic  # Импортируем uic
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QApplication, QMainWindow
+from Ui import Ui_MainWindow
 
-
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow,Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
         self.do_paint = False
         self.qp = QPainter()
-        uic.loadUi('Ui.ui', self)  # Загружаем дизайн
         self.pushButton.clicked.connect(self.paint)
-        # Обратите внимание: имя элемента такое же как в QTDesigner
 
     def paintEvent(self, event):
         if self.do_paint:
@@ -26,8 +23,9 @@ class MyWidget(QMainWindow):
         self.repaint()
 
     def drawing(self, qp):
-        self.qp.setBrush(QColor('yellow'))
-        print(1)
+        self.colors = ['Red', 'Orange', 'Yellow', 'Green', 'Cyan',
+                       'Blue', 'Magenta', 'Purple', 'Brown', 'Black']
+        self.qp.setBrush(QColor(choice(self.colors)))
         a = randint(1, 200)
         b = randint(50, 400)
         self.qp.drawEllipse(a, b, b, b)
